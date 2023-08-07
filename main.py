@@ -2,6 +2,7 @@ import pandas
 
 df = pandas.read_csv("hotels.csv", dtype={"id": str})
 df_cards = pandas.read_csv("cards.csv", dtype=str).to_dict(orient="records")
+df_cards_security = pandas.read_csv("card_security.csv", dtype=str)
 
 
 class Hotel:
@@ -21,11 +22,6 @@ class Hotel:
             return True
         else:
             return False
-
-
-class SpaHotel(Hotel):
-    def book_spa(self):
-        pass
 
 
 class ReservationTicket:
@@ -60,7 +56,6 @@ class CreditCard:
             return False
 
 
-<<<<<<< HEAD
 class SecureCreditCard(CreditCard):
     def authenthicate(self, given_password):
         password = df_cards_security.loc[
@@ -69,34 +64,16 @@ class SecureCreditCard(CreditCard):
         if password == given_password:
             return True
         else:
-            return False
+            return false
 
 
-class SpaReservationTicket:
-    def __init__(self, customer_name, spa_hotel_object):
-        self.customer_name = customer_name
-        self.hotel = spa_hotel_object
-
-    def generate(self):
-        content = f"""
-Thank you for your SPA reservation!
-Here is your booking data.
-Name: {self.customer_name}
-Hotel Name: {self.hotel.name}
-"""
-        return content
-
-
-=======
->>>>>>> parent of 50f6988 (Add card authentication)
 print(df)
 hotel_ID = input("Enter the id of the hotel: ")
-hotel = SpaHotel(hotel_ID)
+hotel = Hotel(hotel_ID)
 
 if hotel.available():
-    credit_card = CreditCard(number="1234")
+    credit_card = SecureCreditCard(number="1234")
     if credit_card.validate(expiration="12/26", holder="JOHN SMITH", cvc="123"):
-<<<<<<< HEAD
         if credit_card.authenthicate(given_password="mypass"):
             hotel.book()
             name = input("Enter your name: ")
@@ -104,21 +81,8 @@ if hotel.available():
                 customer_name=name, hotel_object=hotel
             )
             print(reservation_ticket.generate())
-            spa_answer = input("Do you want to book a spa package? ")
-            if spa_answer == "yes":
-                hotel.book_spa()
-                spa_reservation_ticket = SpaReservationTicket(
-                    customer_name=name, spa_hotel_object=hotel
-                )
-                print(spa_reservation_ticket.generate())
         else:
             print("Credit card authentication failed.")
-=======
-        hotel.book()
-        name = input("Enter your name: ")
-        reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
-        print(reservation_ticket.generate())
->>>>>>> parent of 50f6988 (Add card authentication)
     else:
         print("There was a problem with your payment")
 else:
